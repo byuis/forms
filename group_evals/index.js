@@ -61,7 +61,7 @@ function configure(){
 function submit_form(){
     const data={}
     let message=null
-
+    let data_comment
 
     for(let e=0; e < evaluations.length; e++){
         const ev = evaluations[e]
@@ -94,7 +94,7 @@ function submit_form(){
         return false
     }
     if(document.getElementById("comment").value){
-      data.comment=document.getElementById("comment").value
+      data_comment=document.getElementById("comment").value
     }else if(window.event.ctrlKey){
         //for debugging
         const comment = []
@@ -104,10 +104,12 @@ function submit_form(){
         }
         comment[comment.length-3]=", and "
         comment[comment.length-1]=" were really great to work with.  I can't imagine a better group.  Please keep us together next semester!!!"
-        data.comment=comment.join("")
+        data_comment=comment.join("")
     }
    //console.log ("data",data)
-    document.getElementById("data").value = JSON.stringify(data)
+   document.getElementById("stud_name").value = team[0]
+   document.getElementById("comment2").value = data_comment
+   document.getElementById("data").value = JSON.stringify(data)
     return true
     
     
