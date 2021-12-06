@@ -99,7 +99,7 @@ function submit_form(){
         //for debugging
         const comment = []
         for(let i=team.length-1;i>0;i--){
-            comment.push(team[i])
+            comment.push(team[i].split(" ")[0])
             comment.push(", ")
         }
         comment[comment.length-3]=", and "
