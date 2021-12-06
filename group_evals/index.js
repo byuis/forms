@@ -9,6 +9,7 @@ function configure(){
     evaluations=params[2].split(",")
     evaluations=[]
     evaluations.push("Contributed to the IS 401 term project")
+    evaluations.push("Contributed to other IS 401 group assignments")
     evaluations.push("Did their fair share of the work")
     evaluations.push("Completed assigned tasks")
     evaluations.push("Contributed to assignment and was actively engaged in discussions")
