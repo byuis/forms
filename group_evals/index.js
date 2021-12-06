@@ -8,7 +8,7 @@ function configure(){
     team=params[1].split(",")
     evaluations=params[2].split(",")
     document.getElementById("student_name").innerHTML = team[0]
-    console.log(team.length)
+   //console.log(team.length)
     for(let e=0; e < evaluations.length; e++){
         const one_eval = evaluations[e]
         const table=document.createElement('table')
@@ -67,13 +67,13 @@ function submit_form(){
             for(const btn of document.getElementsByName(`tm${i}q${e}`)){
                 if(btn.checked){
                     data[ev][team[i]]=btn.value
-                    console.log("name of button:",btn.name, btn.value)
+                   //console.log("name of button:",btn.name, btn.value)
                     document.getElementById("row" + i + "q" + e).className="normal"
                 }
             }
-            console.log("checking", e, i, data[ev][team[i]])
+           //console.log("checking", e, i, data[ev][team[i]])
             if(data[ev][team[i]]===null){
-                console.log("null found at ", e, i)
+               //console.log("null found at ", e, i)
                 message="Please complete all evaluations"
                 document.getElementById("row" + i + "q" + e).className="error"
             }
@@ -86,7 +86,7 @@ function submit_form(){
     }
 
     data.comment=document.getElementById("comment").value
-    console.log ("data",data)
+   //console.log ("data",data)
     document.getElementById("data").value = JSON.stringify(data)
     return true
     
