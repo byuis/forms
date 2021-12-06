@@ -59,11 +59,18 @@ function configure(){
 function submit_form(){
     const data={}
     let message=null
+
+
     for(let e=0; e < evaluations.length; e++){
         const ev = evaluations[e]
         data[ev]={}
         for(let i=team.length-1;i>-1;i--){
-            data[ev][team[i]]=null
+            if (window.event.ctrlKey) {
+                //for debugging
+                data[ev][team[i]]=randBetween(1,5)
+            }else{
+                data[ev][team[i]]=null
+            }
             for(const btn of document.getElementsByName(`tm${i}q${e}`)){
                 if(btn.checked){
                     data[ev][team[i]]=parseInt(btn.value)
@@ -84,12 +91,27 @@ function submit_form(){
         alert(message)
         return false
     }
-
-    data.comment=document.getElementById("comment").value
+    if(document.getElementById("comment").value){
+      data.comment=document.getElementById("comment").value
+    }else if(window.event.ctrlKey){
+        //for debugging
+        const comment = []
+        for(let i=team.length-1;i>0;i--){
+            comment.push(team[i])
+            comment.push(", ")
+        }
+        comment[comment.length-3]=", and "
+        comment[comment.length-1]=" were really great to work with.  I can't imagine a better group.  Please keep us together next semester!!!"
+        data.comment=comment.join("")
+    }
    //console.log ("data",data)
     document.getElementById("data").value = JSON.stringify(data)
     return true
     
     
 }
+
+function randBetween(min, max) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
 
