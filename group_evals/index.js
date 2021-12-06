@@ -7,10 +7,38 @@ function configure(){
     document.getElementById("netid").value=params[0]
     team=params[1].split(",")
     evaluations=params[2].split(",")
+    evaluations=[]
+    evaluations.push("Contributed to the IS 401 term project")
+    evaluations.push("Did their fair share of the work")
+    evaluations.push("Completed assigned tasks")
+    evaluations.push("Contributed to assignment and was actively engaged in discussions")
+    evaluations.push("Individual seemed motivated to work")
+    evaluations.push("Prompt communication")
+    evaluations.push("Timeliness of the completion of the work (met deadlines)")
+    evaluations.push("Quality of this person's work - the team did NOT have to re-do their work")
+    evaluations.push("Positive, helpful attitude")
+    evaluations.push("Willing to accept more responsibility to help team")
+    evaluations.push("I would like to work with this person again")
     document.getElementById("student_name").innerHTML = team[0]
    //console.log(team.length)
     for(let e=0; e < evaluations.length; e++){
         const one_eval = evaluations[e]
+        if(e===0){
+            const newdiv=document.createElement("div")
+            newdiv.className="header"
+            newdiv.innerHTML=`
+                <h2>IS 401</h2>
+            `
+            document.getElementById("evals").appendChild(newdiv);
+        }else if(e===2){
+            const newdiv=document.createElement("div")
+            newdiv.className="header"
+            newdiv.innerHTML=`
+                <h2>Intex</h2>
+            `
+            document.getElementById("evals").appendChild(newdiv);
+
+        }
         const table=document.createElement('table')
         const row=table.insertRow() 
         row.innerHTML=`
@@ -50,7 +78,7 @@ function configure(){
         const evals=document.getElementById("evals")
         const newdiv=document.createElement("div")
         newdiv.innerHTML=`
-            <h3>Please rate how your group members contributed to <span class="emphasis">${one_eval}</span>.</h3>
+            <h3><span class="emphasis">${one_eval}</span>.</h3>
         `
         evals.appendChild(newdiv);
         evals.appendChild(table);

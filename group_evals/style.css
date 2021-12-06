@@ -12,14 +12,33 @@ html, body {
     line-height: 22px;
     }
     h1 {
-    font-weight: 400;
+      font-weight: 600;
+      font-size: 30pt;
+      }
+    h2 {
+    font-weight: 800;
+    margin-left:20px;
     }
+
     h4 {
     margin: 15px 0 4px;
     }
+    #student_name{
+      font-weight: bold;
+      background-color: yellow;
+    }
     .emphasis{
-        font-weight: bold;
-        background-color: yellow;
+      font-weight: bold;
+      font-size: 15pt;
+      margin-top: 10px;
+    }
+    .header{
+      margin-top:20px;
+      padding:2px;
+      line-height: 5px;
+      font-weight: 600;
+      color:white;
+      background-color: #095484;
     }
     .error{
       background-color: LemonChiffon;
