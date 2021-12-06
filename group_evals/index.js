@@ -66,7 +66,7 @@ function submit_form(){
             data[ev][team[i]]=null
             for(const btn of document.getElementsByName(`tm${i}q${e}`)){
                 if(btn.checked){
-                    data[ev][team[i]]=btn.value
+                    data[ev][team[i]]=parseInt(btn.value)
                    //console.log("name of button:",btn.name, btn.value)
                     document.getElementById("row" + i + "q" + e).className="normal"
                 }
