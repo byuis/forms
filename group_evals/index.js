@@ -23,7 +23,9 @@ function configure(){
     `
 
     for(let i=team.length-1;i>-1;i--){
-        if(team[i]==="null"){
+        console.log("team[i]",team[i], typeof team[i], team[i].length)
+        if(team[i].replace(/ /g, '')==="null"){
+            console.log("In null")
             team.splice(i, 1)
         }
     }
