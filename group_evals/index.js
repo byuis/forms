@@ -3,6 +3,16 @@ let team
 let evaluations
 
 function configure(){
+
+    fetch("question_sets/is401.json")
+    .then(response => {
+        console.log("response",response)
+    })
+    .catch(error => {
+        console.log("error",error)
+    });
+
+
     const params = atob(window.location.search.substr(1)).split("|")
     document.getElementById("netid").value=params[0]
     team=params[1].split(",")
