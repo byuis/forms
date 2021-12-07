@@ -3,17 +3,47 @@ let team
 let evaluations
 
 function configure(){
+    const params = atob(window.location.search.substr(1)).split("|")
+    console.log("params",params)
+    const promises=[]
+    //get question sets
+    for(const qset of params[2].split(",")){
+        promises.push(
+            fetch("https://byuis.github.io/forms/group_evals/question_sets/" + qset + ".json")
+            .then(response => response.json())
+            .catch(error => {
+                console.log("error",error)
+            })
+        )
+    
+    }
 
-    fetch("question_sets/is401.json")
-    .then(response => {
-        console.log("response",response)
-    })
-    .catch(error => {
-        console.log("error",error)
+    const label_promises = []
+    const labels=[]
+    Promise.all(promises).then((question_sets) => {
+        //now we have the question sets, get the labels
+        for(const question_set of question_sets){
+            console.log(question_set.header)
+            for(const question of question_set.questions){
+                console.log(question)   
+                if(!labels.includes(question.labels)){
+                    labels.push(question.labels)
+                    label_promises.push(
+                        fetch("https://byuis.github.io/forms/group_evals/labels/" + question.labels + ".json")
+                        .then(response => response.json())
+                        .catch(error => {
+                            console.log("error",error)
+                        })
+                    )
+                }     
+            }
+        }
+        // now we have requested all the labels
+        Promise.all(label_promises).then((labels) => {
+            console.log("labels", labels)
+        });     
     });
 
-
-    const params = atob(window.location.search.substr(1)).split("|")
     document.getElementById("netid").value=params[0]
     team=params[1].split(",")
     evaluations=params[2].split(",")
@@ -64,7 +94,6 @@ function configure(){
     for(let i=team.length-1;i>-1;i--){
         console.log("team[i]",team[i], typeof team[i], team[i].length)
         if(team[i].replace(/ /g, '')==="null"){
-            console.log("In null")
             team.splice(i, 1)
         }
     }
