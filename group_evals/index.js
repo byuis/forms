@@ -21,7 +21,7 @@ function configure(){
     //get question sets
     for(const qset of params[2].split(",")){
         promises.push(
-            fetch("https://byuis.github.io/forms/group_evals/question_sets/" + qset + ".json")
+            fetch("https://byuis.github.io/forms/group_evals/question_sets/" + qset + ".json?" + new Date().getTime())
             .then(response => response.json())
             .catch(error => {
                 console.log("error",error)
@@ -43,7 +43,7 @@ function configure(){
                     labels.push(question.labels)
                     question_labels[question.labels]=null
                     label_promises.push(
-                        fetch("https://byuis.github.io/forms/group_evals/labels/" + question.labels + ".json")
+                        fetch("https://byuis.github.io/forms/group_evals/labels/" + question.labels + ".json?" + new Date().getTime())
                         .then(response => response.json())
                         .catch(error => {
                             console.log("error",error)
@@ -78,7 +78,12 @@ function configure(){
                     console.log("question_labels[question_set.questions[e].labels]",question_labels[question_set.questions[e].labels])
                     for(const label of question_labels[question_set.questions[e].labels]){
                         console.log("labelx", label)
-                        row_html.push("<th>" + label + "</th>")
+                        if(label){
+                            row_html.push("<th>" + label + "</th>")
+                        }else{
+                            row_html.push("<th></th>")
+                        }
+                        
                     }
                     row.innerHTML=row_html.join("")
             
