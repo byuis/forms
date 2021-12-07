@@ -4,6 +4,18 @@ let evaluations
 
 function configure(){
     const params = atob(window.location.search.substr(1)).split("|")
+    document.getElementById("netid").value=params[0]
+    team=params[1].split(",")
+    document.getElementById("student_name").innerHTML = team[0]
+
+    // remove null from the team.  Null is used because normal team size is 4, but when a team member drops the core, it is easier to substitute with null rather than reduce teh call to only 3 team members 
+    for(let i=team.length-1;i>-1;i--){
+        if(team[i].replace(/ /g, '')==="null"){
+            team.splice(i, 1)
+        }
+    }
+
+   
     console.log("params",params)
     const promises=[]
     //get question sets
@@ -20,6 +32,7 @@ function configure(){
 
     const label_promises = []
     const labels=[]
+    const question_labels={}
     Promise.all(promises).then((question_sets) => {
         //now we have the question sets, get the labels
         for(const question_set of question_sets){
@@ -28,6 +41,7 @@ function configure(){
                 console.log(question)   
                 if(!labels.includes(question.labels)){
                     labels.push(question.labels)
+                    question_labels[question.labels]=null
                     label_promises.push(
                         fetch("https://byuis.github.io/forms/group_evals/labels/" + question.labels + ".json")
                         .then(response => response.json())
@@ -39,90 +53,67 @@ function configure(){
             }
         }
         // now we have requested all the labels
-        Promise.all(label_promises).then((labels) => {
-            console.log("labels", labels)
+        Promise.all(label_promises).then((labels_data) => {
+            for(let i=0; i<labels_data.length;i++){
+                question_labels[labels[i]]=labels_data[i]
+            }
+            // now we have the labels, ready to render            
+
+           
+
+           
+            for(const question_set of question_sets){
+                const newdiv=document.createElement("div")
+                newdiv.className="header"
+                newdiv.innerHTML="<h2>" + question_set.header + "</h2>"
+                document.getElementById("evals").appendChild(newdiv);
+
+                for(let e=0; e < question_set.questions.length; e++){
+                    const one_eval = question_set.questions[e].text
+                    const table=document.createElement('table')
+                    const row=table.insertRow() 
+                    const row_html=['<th class="first-col"></th>']
+                    console.log("question_labels",question_labels)
+                    console.log("question_set.questions[e]",question_set.questions[e])
+                    console.log("question_labels[question_set.questions[e].labels]",question_labels[question_set.questions[e].labels])
+                    for(const label of question_labels[question_set.questions[e].labels]){
+                        console.log("labelx", label)
+                        row_html.push("<th>" + label + "</th>")
+                    }
+                    row.innerHTML=row_html.join("")
+            
+                    for(let i=team.length-1;i>-1;i--){
+                 
+                        const row  = table.insertRow()
+                        row.className="normal"
+                        row.id="row" + i + "q" + e
+                        let suffix=""
+                        if(i===0){suffix=" (you)"}
+            
+                        row.innerHTML=` <td class="first-col">${team[i]}${suffix}</td>
+                        <td><input type="radio" value="1" name="tm${i}q${e}" /></td>
+                        <td><input type="radio" value="2" name="tm${i}q${e}" /></td>
+                        <td><input type="radio" value="3" name="tm${i}q${e}" /></td>
+                        <td><input type="radio" value="4" name="tm${i}q${e}" /></td>
+                        <td><input type="radio" value="5" name="tm${i}q${e}" /></td>`
+                    }
+            
+                    const evals=document.getElementById("evals")
+                    const newdiv=document.createElement("div")
+                    newdiv.innerHTML=`
+                        <h3><span class="emphasis">${one_eval}</span>.</h3>
+                    `
+                    evals.appendChild(newdiv);
+                    evals.appendChild(table);
+                }
+    
+
+            }
+
+            // end of rendering survey   
         });     
     });
 
-    document.getElementById("netid").value=params[0]
-    team=params[1].split(",")
-    evaluations=params[2].split(",")
-    evaluations=[]
-    evaluations.push("Contributed to the IS 401 term project")
-    evaluations.push("Contributed to other IS 401 group assignments")
-    evaluations.push("Did their fair share of the work")
-    evaluations.push("Completed assigned tasks")
-    evaluations.push("Contributed to assignment and was actively engaged in discussions")
-    evaluations.push("Individual seemed motivated to work")
-    evaluations.push("Prompt communication")
-    evaluations.push("Timeliness of the completion of the work (met deadlines)")
-    evaluations.push("Quality of this person's work - the team did NOT have to re-do their work")
-    evaluations.push("Positive, helpful attitude")
-    evaluations.push("Willing to accept more responsibility to help team")
-    evaluations.push("I would like to work with this person again")
-    document.getElementById("student_name").innerHTML = team[0]
-   //console.log(team.length)
-    for(let e=0; e < evaluations.length; e++){
-        const one_eval = evaluations[e]
-        if(e===0){
-            const newdiv=document.createElement("div")
-            newdiv.className="header"
-            newdiv.innerHTML=`
-                <h2>IS 401</h2>
-            `
-            document.getElementById("evals").appendChild(newdiv);
-        }else if(e===2){
-            const newdiv=document.createElement("div")
-            newdiv.className="header"
-            newdiv.innerHTML=`
-                <h2>Intex</h2>
-            `
-            document.getElementById("evals").appendChild(newdiv);
-
-        }
-        const table=document.createElement('table')
-        const row=table.insertRow() 
-        row.innerHTML=`
-        <th class="first-col"></th>
-        <th>Much less<br>than other<br>group members</th>
-        <th></th>
-        <th>About the same<br>as other<br>group members</th>
-        <th></th>
-        <th>Much more<br>than other<br>group members</th>
-    `
-
-    for(let i=team.length-1;i>-1;i--){
-        console.log("team[i]",team[i], typeof team[i], team[i].length)
-        if(team[i].replace(/ /g, '')==="null"){
-            team.splice(i, 1)
-        }
-    }
-
-
-        for(let i=team.length-1;i>-1;i--){
-     
-            const row  = table.insertRow()
-            row.className="normal"
-            row.id="row" + i + "q" + e
-            let suffix=""
-            if(i===0){suffix=" (you)"}
-
-            row.innerHTML=` <td class="first-col">${team[i]}${suffix}</td>
-            <td><input type="radio" value="1" name="tm${i}q${e}" /></td>
-            <td><input type="radio" value="2" name="tm${i}q${e}" /></td>
-            <td><input type="radio" value="3" name="tm${i}q${e}" /></td>
-            <td><input type="radio" value="4" name="tm${i}q${e}" /></td>
-            <td><input type="radio" value="5" name="tm${i}q${e}" /></td>`
-        }
-
-        const evals=document.getElementById("evals")
-        const newdiv=document.createElement("div")
-        newdiv.innerHTML=`
-            <h3><span class="emphasis">${one_eval}</span>.</h3>
-        `
-        evals.appendChild(newdiv);
-        evals.appendChild(table);
-    }
 
 }
 
