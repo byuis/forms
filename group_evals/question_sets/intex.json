@@ -1,6 +1,6 @@
 {   "header":"Intex",
     "questions":[
-        {   "text":"Did their fair share of the work.",
+        {   "text":"Did their fair share of the work",
             "labels":"absolute"
         },
         {   "text":"Completed assigned tasks",
@@ -9,22 +9,22 @@
         {   "text":"Contributed to assignment and was actively engaged in discussions",
             "labels":"absolute"
         },
-        {   "text":"Individual seemed motivated to work",
+        {   "text":"Seemed motivated to work",
             "labels":"absolute"
         },
-        {   "text":"Prompt communication",
+        {   "text":"Had prompt communication",
             "labels":"absolute"
         },
         {   "text":"Timeliness of the completion of the work (met deadlines)",
             "labels":"absolute"
         },
-        {   "text":"Quality of this person's work - the team did NOT have to re-do their work",
+        {   "text":"Produced quality work - the team did NOT have to re-do their work",
             "labels":"absolute"
         },
-        {   "text":"Positive, helpful attitude",
+        {   "text":"Had a positive, helpful attitude",
             "labels":"absolute"
         },
-        {   "text":"Willing to accept more responsibility to help team",
+        {   "text":"Was willing to accept more responsibility to help team",
             "labels":"absolute"
         },
         {   "text":"I would like to work with this person again",
